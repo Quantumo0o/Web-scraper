@@ -1,0 +1,56 @@
+.search-form {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .search-form:hover {
+    transform: scale(1.05);
+  }
+.search-form {
+    transition: all 0.3s ease-in-out;
+}
+
+.search-form:hover {
+    transform: scale(1.05);
+}
+
+.product-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.reviews-table {
+    margin-top: 30px;
+    background-color: #f5f5f5;
+}
+
+.reviews-table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.reviews-table td {
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.reviews-table td:first-child {
+    font-weight: bold;
+}
+
+.reviews-table td:nth-child(3),
+.reviews-table td:nth-child(4) {
+    text-align: center;
+}
+
+.reviews-table td:nth-child(5) {
+    padding: 10px;
+}  
