@@ -10,11 +10,9 @@ logging.basicConfig(filename="scrapper.log" , level=logging.INFO)
 app = Flask(__name__)
 count = 0
 
-searchString='search'
-
 @app.route("/", methods = ['GET'])
 def homepage():
-    x=0
+    
     return render_template("index.html")
 
 @app.route("/review" , methods = ['POST' , 'GET'])
@@ -29,12 +27,13 @@ def index():
         else:
             count = 0
             page = 0
-
+        
         if count==0:
             searchString = request.form['content'].replace(" ","")
 
+
         try:
-            if count==0 or count==8:
+            if (count==0 or count==8)  and searchString != "":
                 count=0
                 flipkart_url = "https://www.flipkart.com/search?q=" + searchString + "&page=" + str(page)
                 page=page+1
@@ -51,7 +50,6 @@ def index():
             prodRes1 = uReq(productLink)
             prodRes = prodRes1.read()
             prodRes1.close()
-            print("1")
             #prodRes.encoding='utf-8'
             prod_html = bs(prodRes, "html.parser")
             commentboxes = prod_html.find_all('div', {'class': "_16PBlm"})
@@ -59,7 +57,7 @@ def index():
             productname = prod_html.find_all('span',{'class':"B_NuCI"})[0].text
             
             img_tag = prod_html.find_all('div', {'class': '_1BweB8'})[0].div.img['src']
-            print(2)
+
             filename = searchString + ".csv"
             fw = open(filename, "w")
             headers = "Product, Customer Name, Rating, Heading, Comment \n"
@@ -67,68 +65,65 @@ def index():
             
             reviews = []
             
-            try:
-                for commentbox in commentboxes:
-                    try:
-                        #name.encode(encoding='utf-8')
-                        name = commentbox.find_all('p', {'class': '_2sc7ZR _2V5EHH'})[0].text
+            
+            for commentbox in commentboxes:
+                try:
+                    #name.encode(encoding='utf-8')
+                    name = commentbox.find_all('p', {'class': '_2sc7ZR _2V5EHH'})[0].text
 
-                    except:
-                        name="no name"
-                        logging.info("name")
-                    
-                    try:
-                        #rating.encode(encoding='utf-8')
-                        rating = commentbox.div.div.div.div.text
+                except:
+                    name="no name"
+                    logging.info("name")
+                
+                try:
+                    #rating.encode(encoding='utf-8')
+                    rating = commentbox.div.div.div.div.text
 
 
-                    except:
-                        rating = 'No Rating'
-                        logging.info("rating")
+                except:
+                    rating = 'No Rating'
+                    logging.info("rating")
 
-                    try:
-                        #commentHead.encode(encoding='utf-8')
-                        commentHead = commentbox.div.div.div.p.text
+                try:
+                    #commentHead.encode(encoding='utf-8')
+                    commentHead = commentbox.div.div.div.p.text
 
-                    except:
-                        commentHead = 'No Comment Heading'
-                        logging.info(commentHead)
-                    try:
-                        comtag = commentbox.div.div.find_all('div', {'class': ''})
-                        #custComment.encode(encoding='utf-8')
-                        custComment = comtag[0].div.text
-                    except Exception as e:
-                        logging.info(e)
-                        custComment = 'No Comment'
+                except:
+                    commentHead = 'No Comment Heading'
+                    logging.info(commentHead)
+                try:
+                    comtag = commentbox.div.div.find_all('div', {'class': ''})
+                    #custComment.encode(encoding='utf-8')
+                    custComment = comtag[0].div.text
+                except Exception as e:
+                    logging.info(e)
+                    custComment = 'No Comment'
 
-                    mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
-                            "Comment": custComment}
-                    
-                    reviews.append(mydict)
-                    x= searchString + "," + name+","+rating+","+commentHead+","+custComment
-                    fw.write(x + '\n')
-            except Exception as e:
-                logging.info(e)
-                message='no comment'
-                return render_template('index.html',img_tag=img_tag,message=message)
+                mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
+                        "Comment": custComment}
+                
+                reviews.append(mydict)
+                x= searchString + "," + name+","+rating+","+commentHead+","+custComment
+                fw.write(x + '\n')
+            
 
                 
             logging.info("log my final result {}".format(reviews))
 
             
-            #client = pymongo.MongoClient("mongodb+srv://pwskills:pwskills@cluster0.ln0bt5m.mongodb.net/?retryWrites=true&w=majority")
+            #client = pymongo.MongoClient("mongodb+srv://username:password@cluster0.ln0bt5m.mongodb.net/?retryWrites=true&w=majority")
             #db =client['scrapper_eng_pwskills']
             #coll_pw_eng = db['scraper_pwskills_eng']
             #coll_pw_eng.insert_many(reviews)
-            
             
             return render_template('index.html', reviews=reviews[0:(len(reviews)-1)],productname=productname, price=productprice, img_tag=img_tag)
             
         except Exception as e:
             logging.info(e)
             print(e)
-            message= 'No Reviews'
-            return render_template('index.html',message=message, productname=productname, price=productprice, img_tag=img_tag)
+            message= 'Please Enter Product'
+            print(message)
+            return render_template('index.html',message=message)
         
     else:
         return render_template('index.html')
@@ -136,6 +131,3 @@ def index():
 
 if __name__=="__main__":
         app.run(debug=True,host="0.0.0.0")
-
-
-#app.run(host="0.0.0.0")
