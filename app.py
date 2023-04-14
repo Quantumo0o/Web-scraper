@@ -112,9 +112,9 @@ def index():
 
             
             #client = pymongo.MongoClient("mongodb+srv://username:password@cluster0.ln0bt5m.mongodb.net/?retryWrites=true&w=majority")
-            #db =client['scrapper_eng_pwskills']
-            #coll_pw_eng = db['scraper_pwskills_eng']
-            #coll_pw_eng.insert_many(reviews)
+            #db =client['scrapper']
+            #coll= db['scraper_coll']
+            #coll.insert_many(reviews)
             
             return render_template('index.html', reviews=reviews[0:(len(reviews)-1)],productname=productname, price=productprice, img_tag=img_tag)
             
