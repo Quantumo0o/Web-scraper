@@ -63,6 +63,6 @@ Explain how others can contribute to your project. Include guidelines for issues
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [GNU General Public License v3.0](LICENSE). See the [LICENSE](LICENSE) file for more details.
 
 **Note**: Provide links to any related documents or additional information, and make sure to keep your README up-to-date as your project evolves.
