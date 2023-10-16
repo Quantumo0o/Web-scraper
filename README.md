@@ -12,7 +12,7 @@ This is a Flask-based web application for scraping product reviews from Flipkart
 - [License](#license)
 
 ## Demo
-Include a link to a live demo or screenshots of the application.
+You can view the Demo LinkedIn post by following this [link](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7052045923731857408).
 
 ## Features
 - Search for a product on Flipkart.
