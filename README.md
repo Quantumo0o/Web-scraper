@@ -36,10 +36,37 @@ pip install -r requirements.txt
 ## Usage
 Explain how to use the application:
 
-1. Start the Flask application using `python app.py`.
-2. Access the application in a web browser at [http://localhost:5000](http://localhost:5000).
-3. Enter the product name in the search box and click the search button.
-4. View the scraped reviews, product details, and images.
+1. Start the Flask application using [`python app.py`.](app.py)
+
+Replace here "username" and "password" with their actual MongoDB credentials. Here's a code snippet with comments to guide the user:
+
+```python
+# Replace 'username' and 'password' with your MongoDB database credentials
+# Example: 'my_actual_username' and 'my_actual_password'
+
+client = pymongo.MongoClient("mongodb+srv://my_actual_username:my_actual_password@cluster0.ln0bt5m.mongodb.net/?retryWrites=true&w=majority")
+db = client['scrapper']
+coll = db['scraper_coll']
+coll.insert_many(reviews
+```
+
+In the code snippet you provided, the lines `db = client['scrapper']` and `coll = db['scraper_coll']` are used to interact with a specific database and collection within a MongoDB database.
+
+1.1 `db = client['scrapper']`:
+   - `client` is an instance of the `pymongo.MongoClient` class, which is used to connect to a MongoDB server.
+   - MongoDB databases are organized into collections, and each collection can contain documents (i.e., data records).
+   - In this line, the code creates a variable `db` and associates it with a specific database named 'scrapper' within the MongoDB server. You can replace 'scrapper' with the actual name of the database you want to interact with.
+
+1.2 `coll = db['scraper_coll']`:
+   - Once you have a reference to the database, you can further specify the collection you want to work with.
+   - In this line, the code creates a variable `coll` and associates it with a specific collection named 'scraper_coll' within the 'scrapper' database. You should replace 'scraper_coll' with the actual name of the collection you want to use.
+
+After these two lines, you can use the `coll` variable to interact with the 'scraper_coll' collection, which may include operations like inserting, updating, querying, or deleting documents in that collection. Similarly, you can use the `db` variable to perform database-level operations within the 'scrapper' database.
+
+   
+3. Access the application in a web browser at [http://localhost:5000](http://localhost:5000).
+4. Enter the product name in the search box and click the search button.
+5. View the scraped reviews, product details, and images.
 
 ## Dependencies
 
